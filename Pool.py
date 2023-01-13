@@ -2,7 +2,6 @@ import chess
 import chess.polyglot
 
 board = chess.Board()
-test = 9
 board.push_uci("e2e4")
 board.push_uci("e7e5")
 board.push_uci("g1f3")
