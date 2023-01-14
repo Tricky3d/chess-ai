@@ -54,24 +54,25 @@ while True:
             el = list(board.legal_moves)
             evalboard = board
             eval = 0
-            
-            
+    
             move = str(el[i-1])
             
             evalboard.push(chess.Move.from_uci(move))
             for i in range(evalboard.legal_moves.count()):
-                el = list(board.legal_moves)
-
+                el = list(evalboard.legal_moves)
                 evalboard.push(chess.Move.from_uci(str(el[i-1])))
-                material_balance(evalboard)
-                eval = material_balance(evalboard)
-        
-                if(eval > highesteval):
-                    highesteval = eval
-                    bestmove = move
-                    
-
-
+                for i in range(evalboard.legal_moves.count()):
+                    el = list(evalboard.legal_moves)
+                    evalboard.push(chess.Move.from_uci(str(el[i-1])))
+                    for i in range(evalboard.legal_moves.count()):
+                        el = list(evalboard.legal_moves)
+                        evalboard.push(chess.Move.from_uci(str(el[i-1])))
+                        for i in range(evalboard.legal_moves.count()):
+                            el = list(evalboard.legal_moves)
+                            evalboard.push(chess.Move.from_uci(str(el[i-1])))
+                            evalboard.pop()
+                        evalboard.pop()
+                    evalboard.pop()
                 evalboard.pop()
             evalboard.pop()
         board.push(chess.Move.from_uci(bestmove))
