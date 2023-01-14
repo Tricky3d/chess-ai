@@ -27,4 +27,3 @@ for i in range(board.legal_moves.count()):
                     evalboard.pop()
                 evalboard.pop()
             evalboard.pop()
-            print("sucees")
