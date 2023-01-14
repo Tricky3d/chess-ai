@@ -38,10 +38,10 @@ while True:
     highesteval = -1000
     
         
-    Pool.get_move(board)   
+    
         
     if(Pool.get_move(board) == True):   
-        
+        Pool.get_move(board)   
         open = str(Pool.move)
         print() 
         board.push(chess.Move.from_uci(open))
@@ -54,8 +54,13 @@ while True:
             el = list(board.legal_moves)
             evalboard = board
             eval = 0
+            evalist = list()
+            movelist = list()
+            topmove = "e"
     
             move = str(el[i-1])
+
+            movelist.append(str(el[i-1]))
             
             evalboard.push(chess.Move.from_uci(move))
             for i in range(evalboard.legal_moves.count()):
@@ -70,6 +75,9 @@ while True:
                         for i in range(evalboard.legal_moves.count()):
                             el = list(evalboard.legal_moves)
                             evalboard.push(chess.Move.from_uci(str(el[i-1])))
+                            eval = material_balance(evalboard)
+                            
+                            evalist.append(eval)
                             evalboard.pop()
                         evalboard.pop()
                     evalboard.pop()
