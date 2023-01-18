@@ -2,11 +2,11 @@ import chess
 import chess.polyglot
 import chess.svg
 import Pool
+
+
+
+
 board = chess.Board()
-
-
-
-
 highesteval = -10000
 bestmove = "e"
 
@@ -52,9 +52,10 @@ while True:
         board.push(chess.Move.from_uci(open))
         print(board)
 
-        board.push_san(input("user move: "))
+        board.push(chess.Move.from_uci(input("user move: ")))
         
     else:
+<<<<<<< HEAD
         
         evalboard = board
         
@@ -72,15 +73,24 @@ while True:
             el = list(board.legal_moves)
             beta = float("-inf")
             bestvalue = float("inf")
+=======
+        for i in range(board.legal_moves.count()):
+            el = list(board.legal_moves)
+            evalboard = board
+            eval = 0
+            evalist = list()
+            movelist = list()
+            topmove = "e"
+>>>>>>> parent of 45d16e2 (khkh)
     
-            move = str(el[i])
+            move = str(el[i-1])
 
-            movelist.append(str(el[i]))
+            movelist.append(str(el[i-1]))
             
             evalboard.push(chess.Move.from_uci(move))
-            
             for i in range(evalboard.legal_moves.count()):
                 el = list(evalboard.legal_moves)
+<<<<<<< HEAD
                 evalboard.push(chess.Move.from_uci(str(el[i])))
                 for move in range(evalboard.legal_moves.count()):
                     el = list(evalboard.legal_moves)
@@ -106,6 +116,34 @@ while True:
         bestmove = movelist[evalist3.index(max(evalist3))]
         board.push(chess.Move.from_uci(bestmove))
         print(board)
+=======
+                evalboard.push(chess.Move.from_uci(str(el[i-1])))
+                for i in range(evalboard.legal_moves.count()):
+                    el = list(evalboard.legal_moves)
+                    evalboard.push(chess.Move.from_uci(str(el[i-1])))
+                    for i in range(evalboard.legal_moves.count()):
+                        el = list(evalboard.legal_moves)
+                        evalboard.push(chess.Move.from_uci(str(el[i-1])))
+                        for i in range(evalboard.legal_moves.count()):
+                            el = list(evalboard.legal_moves)
+                            evalboard.push(chess.Move.from_uci(str(el[i-1])))
+                            eval = material_balance(evalboard)
+                            
+                            evalist.append(eval)
+                            evalboard.pop()
+                        evalboard.pop()
+                    evalboard.pop()
+                evalboard.pop()
+            evalboard.pop()
+        board.push(chess.Move.from_uci(bestmove))
+        print(board)
+        boardsvg = chess.svg.board(board, size=300) 
+
+       
+        board.push(chess.Move.from_uci(input("user move: ")))
+        print(board)
+        
+>>>>>>> parent of 45d16e2 (khkh)
 
 
    
