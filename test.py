@@ -29,32 +29,43 @@ def material_balance(board):
     )
 for i in range(board.legal_moves.count()):
     el = list(board.legal_moves)
-    evalboard = board
-
+    
+    
 
     move = str(el[i])
 
     movelist.append(str(el[i]))
-
+    
     evalboard.push(chess.Move.from_uci(move))
-    for i in range(evalboard.legal_moves.count()):
-        el = list(evalboard.legal_moves)
-        evalboard.push(chess.Move.from_uci(str(el[i])))
+    
+    evalboard = board
+    eval = 0
+    alpha = float("-inf")
+    beta = float("inf")
+    evalist = list()
+    movelist = list()
+    for i in range(board.legal_moves.count()):
+        el = list(board.legal_moves)
+        move = str(el[i])
+        movelist.append(str(el[i]))
+        evalboard.push(chess.Move.from_uci(move))
+        eval = material_balance(evalboard)
+        if eval >= beta:
+            evalboard.pop()
+            break
+        alpha = max(alpha, eval)
         for i in range(evalboard.legal_moves.count()):
             el = list(evalboard.legal_moves)
             evalboard.push(chess.Move.from_uci(str(el[i])))
-            for i in range(evalboard.legal_moves.count()):
-                el = list(evalboard.legal_moves)
-                evalboard.push(chess.Move.from_uci(str(el[i])))
-                eval = material_balance(evalboard)
-                
-                evalist.append(eval)
+            eval = material_balance(evalboard)
+            if eval <= alpha:
                 evalboard.pop()
-            evalist1.append(evalist[evalist.index(min(evalist))])
+                break
+            beta = min(beta, eval)
             evalboard.pop()
-        evalist2.append(evalist1[evalist1.index(max(evalist1))])
+        evalist.append(eval)
         evalboard.pop()
-    evalist3.append(evalist2[evalist2.index(min(evalist2))])
-    evalboard.pop()
-bestmove = movelist[evalist3[evalist3.index(max(evalist3))]]
-print(bestmove)
+    bestmove = movelist[evalist.index(max(evalist))]
+    board.push(chess.Move.from_uci(bestmove))
+    print(board)
+    
